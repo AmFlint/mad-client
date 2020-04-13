@@ -51,12 +51,14 @@ jobs:
     - name: Run Ansible Playbook redeploy client
       run: |
         cd automation/ansible
-        ansible-playbook -i automation/ansible/inventory/ec2.py playbook.yml \
+        ansible-playbook \
+          -i inventory/ec2.py \
+          playbook.yml \
           --limit client \
           --tags client_deploy \
           --user ubuntu \
-          -e "client_docker_tag=${GITHUB_SHA:0:4}"
-          --e "client_docker_image=$REGISTRY_IMAGE"
+          -e "client_docker_tag=${GITHUB_SHA:0:4}" \
+          -e "client_docker_image=$REGISTRY_IMAGE"
       env:
         REGISTRY_IMAGE: amasselot/mad-client
         ANSIBLE_CFG: ./ansible.cfg
