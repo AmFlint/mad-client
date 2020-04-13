@@ -54,6 +54,7 @@ jobs:
     - name: Run Ansible Playbook redeploy client
       run: |
         cd automation/ansible
+        echo "$SSH_PRIVATE_KEY" > key
         ansible-playbook \
           -i inventory/ec2.py \
           playbook.yml \
@@ -61,8 +62,10 @@ jobs:
           --tags client_deploy \
           --user ubuntu \
           -e "client_docker_tag=${GITHUB_SHA:0:4}" \
-          -e "client_docker_image=$REGISTRY_IMAGE"
+          -e "client_docker_image=$REGISTRY_IMAGE" \
+          --key key
       env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         REGISTRY_IMAGE: amasselot/mad-client
         ANSIBLE_CFG: ./ansible.cfg
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
