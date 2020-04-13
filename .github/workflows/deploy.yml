@@ -55,6 +55,7 @@ jobs:
       run: |
         cd automation/ansible
         echo "$SSH_PRIVATE_KEY" > key
+        chmod 0400 key
         ansible-playbook \
           -i inventory/ec2.py \
           playbook.yml \
