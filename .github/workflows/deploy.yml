@@ -47,6 +47,9 @@ jobs:
         sudo apt install software-properties-common
         sudo apt-add-repository --yes --update ppa:ansible/ansible
         sudo apt install ansible
+    
+    - name: Install PIP dependencies
+      run: pip install -r automation/ansible/requirements.txt
 
     - name: Run Ansible Playbook redeploy client
       run: |
